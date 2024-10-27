@@ -4,20 +4,27 @@ import { validateOrReject, ValidationError } from "class-validator";
 import { NextFunction, Request, Response } from "express";
 import httpStatus from "http-status";
 
+export enum RequestTarget {
+  BODY = "body",
+  QUERY = "query",
+}
+
 const InputValidationMiddleware = (
   type: any,
+  target: string = RequestTarget.BODY,
   skipMissingProperties = false,
   whitelist = true,
   forbidNonWhitelisted = false
 ) => {
   return (req: Request, res: Response, next: NextFunction) => {
-    const dto = plainToInstance(type, req.body);
+    const requestTarget = target === RequestTarget.QUERY ? req.query : req.body;
+    const dto = plainToInstance(type, requestTarget);
     validateOrReject(dto, {
       skipMissingProperties,
       whitelist,
       forbidNonWhitelisted,
     })
-      .then(() => {
+    .then(() => {
         req.body = dto;
         next();
       })
