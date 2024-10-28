@@ -24,7 +24,7 @@ const InputValidationMiddleware = (
       whitelist,
       forbidNonWhitelisted,
     })
-    .then(() => {
+      .then(() => {
         req.body = dto;
         next();
       })

@@ -17,7 +17,7 @@ export class UserService {
     return user;
   }
 
-  public async findByEmail(email: string): Promise<User> {
+  public async findByEmail(email: string): Promise<User | null> {
     return this.user.findUnique({ where: { email: email } });
   }
 
@@ -35,7 +35,7 @@ export class UserService {
     return stripedUser;
   }
 
-  public async updateUser(id: string, data: Partial<User>) {
+  public async updateUser(id: string, data: Partial<User>): Promise<void> {
     await this.user.update({
       where: { id },
       data,

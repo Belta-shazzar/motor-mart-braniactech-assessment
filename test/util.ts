@@ -1,5 +1,3 @@
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
-
-export default prisma;
+export function generateUUID(): string {
+  return crypto.randomUUID();
+}
