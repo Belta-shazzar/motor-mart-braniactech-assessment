@@ -23,6 +23,7 @@ export class AddCarListingDto {
 
   @IsNotEmpty()
   @IsInt()
+  @Type(() => Number)
   @Max(new Date().getFullYear()) // Ensures year isn’t in the future
   year: number;
 
@@ -31,10 +32,12 @@ export class AddCarListingDto {
   color: string;
 
   @IsNotEmpty()
+  @Type(() => Number)
   @Min(0)
   mileage: number; // Kilometer
 
   @IsNotEmpty()
+  @Type(() => Number)
   @Min(0) // Prevents negative prices
   price: Decimal; //Naira
 

@@ -17,7 +17,13 @@ const config: Config = {
   logs: {
     format: process.env.LOG_FORMAT!,
     directory: process.env.LOG_DIR!,
-  }
+  },
+  cloudinary: {
+    api_key: process.env.API_KEY!,
+    api_secret: process.env.API_SECRET!,
+    cloud_name: process.env.CLOUD_NAME!,
+    folder: process.env.FOLDER!
+  },
 };
 
 export default config;

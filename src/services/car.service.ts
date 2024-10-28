@@ -2,7 +2,7 @@ import { Service } from "typedi";
 import { ImageService } from "@/services/image.service";
 import { AddCarListingDto, CarSearchFilterDto } from "@/dto/car.dto";
 import { UserService } from "./user.service";
-import { Car, User, UserRole } from "@prisma/client";
+import { Car, Image, User, UserRole } from "@prisma/client";
 import prisma from "@/config/prisma";
 import { paginateResponse } from "@/utils/pagination";
 import Decimal from "decimal.js-light";
@@ -18,33 +18,53 @@ export class CarService {
   ) {}
 
   public async addCarListing(
+    user: Partial<User>,
     listingDto: AddCarListingDto,
-    user: Partial<User>
-  ): Promise<Car> {
-    /*
+    files: Record<string, any>[]
+  ): Promise<any> {
+    return await prisma.$transaction(async (transaction) => {
+      /*
     Extracting price to convert from
     decimal to string (for compatibility with prisma) before saving to database
     */
-    const { price } = listingDto;
+      const { price } = listingDto;
 
-    const car: Car = await this.car.create({
-      data: {
-        ...listingDto,
-        price: price.toString(),
-        sellerId: user.id,
-      },
+      const car: Car = await transaction.car.create({
+        data: {
+          ...listingDto,
+          price: price.toString(),
+          sellerId: user.id,
+        },
+      });
+
+      const images: Partial<Image>[] | any = [];
+
+      files.forEach((file) => {
+        const { originalname, encoding, mimetype, path, size, filename } = file;
+        const image: Partial<Image> = {
+          carId: car.id,
+          url: path,
+          encoding,
+          fileName: filename,
+          originalName: originalname,
+          mimeType: mimetype,
+          size: size.toString(),
+        };
+
+        images.push(image);
+      });
+
+      await this.imageService.createImages(images, transaction);
+
+      if (user.role !== UserRole.SELLER) {
+        await this.userService.updateUser(user.id, { role: UserRole.SELLER });
+      }
+
+      return { car };
     });
-
-    //TODO: Upload images with car ID
-
-    if (user.role !== UserRole.SELLER) {
-      await this.userService.updateUser(user.id, { role: UserRole.SELLER });
-    }
-
-    return car;
   }
 
-  public async getCarDetails(carId: string) {
+  public async getCarDetails(carId: string): Promise<Partial<Car>> {
     const car = await this.car.findUnique({
       where: { id: carId },
       select: {
@@ -67,7 +87,15 @@ export class CarService {
             email: true,
           },
         },
-        images: true,
+        images: {
+          select: {
+            id: true,
+            url: true,
+            fileName: true,
+            originalName: true,
+            mimeType: true,
+          },
+        },
       },
     });
 
@@ -82,11 +110,16 @@ export class CarService {
 
     const where = this.constructSearchFilters(filter);
 
+    const sortParameter = filter.sortParameter
+      ? filter.sortParameter
+      : "createdAt";
+    const sortOrder = filter.sortOrder ? filter.sortOrder : "desc";
+
     const cars = await this.car.findMany({
       skip: skip,
       take: limit,
       where,
-      orderBy: { [filter.sortParameter]: filter.sortOrder },
+      orderBy: { [sortParameter]: sortOrder },
       select: {
         id: true,
         make: true,

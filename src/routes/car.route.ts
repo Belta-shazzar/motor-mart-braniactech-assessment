@@ -1,3 +1,4 @@
+import Upload from "@/middlewares/upload.middleware";
 import { CarController } from "@/controllers/car.controller";
 import { AddCarListingDto, CarSearchFilterDto } from "@/dto/car.dto";
 import { Routes } from "@/interfaces/routes.interface";
@@ -20,6 +21,7 @@ export class CarRoute implements Routes {
     this.router.post(
       this.path,
       AuthMiddleware,
+      Upload.array("images", 10),
       InputValidationMiddleware(AddCarListingDto),
       this.carController.addCarListing
     );

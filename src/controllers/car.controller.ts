@@ -1,5 +1,4 @@
-import { AddCarListingDto, CarSearchFilterDto } from "@/dto/car.dto";
-import { RequestWithUser } from "@/interfaces/auth.interface";
+import { CarSearchFilterDto } from "@/dto/car.dto";
 import { CarService } from "@/services/car.service";
 import { Request, Response, NextFunction } from "express";
 import httpStatus from "http-status";
@@ -9,16 +8,14 @@ export class CarController {
   private carService = Container.get(CarService);
 
   public addCarListing = async (
-    req: RequestWithUser,
+    req: any,
     res: Response,
     next: NextFunction
   ) => {
     try {
-      // TODO: Add implementation for image upload
-      const carData: AddCarListingDto = req.body;
-      const { user } = req;
+      const { user, body, files } = req;
 
-      const response = await this.carService.addCarListing(carData, user);
+      const response = await this.carService.addCarListing(user, body, files);
       res.status(httpStatus.CREATED).json(response);
     } catch (error) {
       next(error);

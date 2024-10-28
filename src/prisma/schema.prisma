@@ -48,16 +48,26 @@ model Car {
   // Relationships
   images Image[]
   seller User    @relation(fields: [sellerId], references: [id])
+
+  @@index([make])
+  @@index([carModel])
+  @@index([year])
+  @@index([price])
+  @@index([mileage])
 }
 
 model Image {
-  id        String    @id @default(uuid()) @db.Uuid
-  title     String
-  carId     String    @db.Uuid
-  url       String
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  deletedAt DateTime?
+  id           String    @id @default(uuid()) @db.Uuid
+  carId        String    @db.Uuid
+  url          String
+  encoding     String
+  fileName     String
+  originalName String
+  mimeType     String
+  size         String
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  deletedAt    DateTime?
 
   // Relationships
   car Car @relation(fields: [carId], references: [id])
