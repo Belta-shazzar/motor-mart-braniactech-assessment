@@ -9,6 +9,7 @@ Prisma was chosen as the ORM because of its intuitive, type-safe query system an
 - NodeJs (TypeScript & Express)
 - Postgres database
 - Prisma for ORM
+- Cloudinary for image upload
 - Postman for API Documentation
 
 ## Local Development Setup
@@ -19,15 +20,19 @@ Prisma was chosen as the ORM because of its intuitive, type-safe query system an
 - Run `docker compose up` to start all services(core, database, database client) used in this application
 - Run `yarn prisma:migrate` to sync models with database
 - Connect to database with your choice database client
+- Run `yarn dev` to start the application on development environment
 
 ## Test Setup
 - Complete the local development setup
 - Run `yarn test`
 
+## ER Diagram
+[https://dbdiagram.io/d/Motor-Mart-671d02f197a66db9a35b96d2](https://dbdiagram.io/d/Motor-Mart-671d02f197a66db9a35b96d2)
+
 ## API Documentation
 
-[https://documenter.getpostman.com/view/20628325/2sAXxS8WmV](https://documenter.getpostman.com/view/20628325/2sAXxS8WmV)
+[https://documenter.getpostman.com/view/20628325/2sAY4uD3fK](https://documenter.getpostman.com/view/20628325/2sAY4uD3fK)
 
 ## Live URL
 
-[https://interactify-risevest-assessment-3.onrender.com](https://interactify-risevest-assessment-3.onrender.com)
+[https://motor-mart-2.onrender.com](https://motor-mart-2.onrender.com)

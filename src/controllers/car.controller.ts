@@ -14,6 +14,7 @@ export class CarController {
   ) => {
     try {
       const { user, body, files } = req;
+      console.log("The files: ", files);
 
       const response = await this.carService.addCarListing(user, body, files);
       res.status(httpStatus.CREATED).json(response);
