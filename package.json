@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "cross-env NODE_ENV=development nodemon",
     "build": "tsc && tsc-alias",
-    "start": "node dist/server.js",
+    "start": "cross-env NODE_ENV=production node dist/server.js",
     "start:prod": "npm run build && npm run start",
     "test": "dotenv -e .env.test -- cross-env NODE_ENV=test jest --coverage",
     "prisma:init": "prisma init",
