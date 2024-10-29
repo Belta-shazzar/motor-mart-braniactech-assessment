@@ -60,7 +60,7 @@ export class CarService {
         await this.userService.updateUser(user.id, { role: UserRole.SELLER });
       }
 
-      return { car };
+      return car;
     });
   }
 
@@ -169,7 +169,6 @@ export class CarService {
     if (mileageMax !== undefined)
       whereFilter.AND.push({ mileage: { lte: mileageMax } });
 
-    console.dir(whereFilter, { depth: null });
     return whereFilter;
   }
 }

@@ -1,3 +1,4 @@
+import "reflect-metadata";
 import { FuelType, Transmission } from "@prisma/client";
 import { Type } from "class-transformer";
 import {
@@ -10,7 +11,6 @@ import {
   IsEnum,
   IsNumber,
 } from "class-validator";
-import Decimal from "decimal.js-light";
 
 export class AddCarListingDto {
   @IsNotEmpty()
@@ -39,7 +39,7 @@ export class AddCarListingDto {
   @IsNotEmpty()
   @Type(() => Number)
   @Min(0) // Prevents negative prices
-  price: Decimal; //Naira
+  price: number; //Naira
 
   @IsNotEmpty()
   @IsString()
@@ -65,7 +65,7 @@ export enum SortOrder {
   DESC = "desc",
 }
 
-export enum sortParameter {
+export enum SortParameter {
   PRICE = "price",
   MILEAGE = "mileage",
   YEAR = "year",
@@ -111,8 +111,8 @@ export class CarSearchFilterDto {
   mileageMax?: number;
 
   @IsOptional()
-  @IsEnum(sortParameter)
-  sortParameter: sortParameter;
+  @IsEnum(SortParameter)
+  sortParameter: SortParameter;
 
   @IsOptional()
   @IsEnum(SortOrder)
