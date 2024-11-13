@@ -21,7 +21,7 @@ Prisma was chosen as the ORM because of its intuitive, type-safe query system an
 - Run `yarn prisma:migrate` to sync models with database
 - Connect to database with your choice database client
 - Run `yarn dev` to start the application on development environment
-- Run `yarn seeder:seed` to populate the database. This would allow for testing the search feature without manually saving data.
+- Run `yarn seeder:seed` to populate the database. This would allow for testing the search feature without manually saving¸
 
 ## Test Setup
 - Complete the local development setup
@@ -36,4 +36,4 @@ Prisma was chosen as the ORM because of its intuitive, type-safe query system an
 
 ## Live URL
 
-[https://motor-mart-2.onrender.com](https://motor-mart-2.onrender.com)
+[https://motor-mart-braniactech-assessment.onrender.com](https://motor-mart-braniactech-assessment.onrender.com)
